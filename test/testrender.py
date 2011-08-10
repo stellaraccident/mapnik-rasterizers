@@ -17,11 +17,13 @@ for i in range(len(names)):
 m=Map(640, 480, '+proj=latlong +dataum=WGS84')
 m.background=Color('white')
 m.buffer_size=0
-#m.aspect_fix_mode=aspect_fix_mode.GROW_CANVAS
+m.aspect_fix_mode=aspect_fix_mode.ADJUST_BBOX_HEIGHT
 
 # Datasource
 datasource=Datasource(
-	type='heatmap'
+	type='heatmap',
+	src_type='shape',
+	src_file='/home/stella/gis/park_label_ll.shp'
 	)
 
 # Layer
@@ -40,7 +42,8 @@ r.symbols.extend([rs])
 s.rules.append(r)
 m.append_style('blit', s)
 
-env=Box2d(-122.562276, 47.116973, -122.233373, 47.300291)
+#env=Box2d(-122.562276, 47.116973, -122.233373, 47.300291)
+env=Box2d(-122.526560, 47.144090, -121.080983, 47.775753)
 #env=Box2d(-180, -90, 180, 90)
 m.zoom_to_box(env)
 print "Rendering map for " + repr(m.envelope())

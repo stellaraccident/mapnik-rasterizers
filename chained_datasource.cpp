@@ -42,13 +42,13 @@ mapnik::box2d<double> chained_datasource::envelope() const
 	if (source_) {
 		return source_->envelope();
 	} else {
-		return mapnik::box2d<double>(-180,-90,180,90);	// TODO: Remove/warn
+		//return mapnik::box2d<double>(-180,-90,180,90);	// TODO: Remove/warn
+		return mapnik::box2d<double>();
 	}
 }
 
 void chained_datasource::bind() const
 {
-	return;
 	if (is_bound_) return;
 
 	source_=datasource_cache::create(source_params_, true);

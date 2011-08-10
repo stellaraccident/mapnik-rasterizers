@@ -40,8 +40,52 @@ mapnik::layer_descriptor heatmap_datasource::get_descriptor() const
 
 void heatmap_datasource::rasterize(rasterize_params& rp) const
 {
+	// Don't do anything if no source (shouldn't be possible but avoid segfault)
+	if (!source()) {
+		return;
+	}
+
 	density_mask mask(rp.image().width(), rp.image().height());
-	mask.set_random_samples(250, true);
+
+	// Setup geometry for plotting
+	double	refx=rp.query().get_bbox().minx(),
+			refy=rp.query().get_bbox().miny(),
+			resx=rp.query().resolution().head,
+			resy=rp.query().resolution().tail.head;
+	int 	width=rp.image().width(),
+			height=rp.image().height();
+
+	// Open the source featureset
+	mapnik::featureset_ptr fs=source()->features(rp.query());
+
+	// Iterate over features
+	while (mapnik::feature_ptr f=fs->next()) {
+		mapnik::coord2d centroid(0,0);
+
+		// Get average centroid of all geometries
+		for (unsigned i=0; i<f->num_geometries(); i++) {
+			const mapnik::geometry_type& g(f->get_geometry(i));
+
+			double gx=0,gy=0;
+			g.middle_point(&gx,&gy);
+			centroid.x+=gx;
+			centroid.y+=gy;
+		}
+
+		centroid/=f->num_geometries();
+
+		// Plot the point
+		int x=round((centroid.x - refx) * resx);
+		int y=height - round((centroid.y - refy) * resy);
+
+		if (x>=0 && y>=0 && x<width && y<height) {
+			mask.set_sample(x, y, 1.0);
+		} else {
+			std::clog << "Sample out of range: (" << x << "," << y << ")" << std::endl;
+		}
+	}
+
+	//mask.set_random_samples(250, true);
 	mask.gaussian_blend(20, true);
 
 	// Color gradient
@@ -69,5 +113,6 @@ void heatmap_datasource::rasterize(rasterize_params& rp) const
 			rp.image().width() * 4);
 	agg::pixfmt_rgba32 pixf(rbuf);
 
+	// Colorize the mask into the buffer
 	mask.colorize(pixf, color_lut, alpha_lut);
 }
