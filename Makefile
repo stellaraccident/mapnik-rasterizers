@@ -4,7 +4,8 @@ MAPNIK_LIBS := $(shell mapnik-config --libs)
 MAPNIK_INPUT_PLUGIN_DIR := $(shell mapnik-config --input-plugins)
 
 # Variable defaults
-CPPFLAGS ?= -I/usr/include/agg2
+AGG_INCLUDE?=/usr/include/agg2
+CPPFLAGS ?= -I$(AGG_INCLUDE)
 CXXFLAGS ?=
 CXXFLAGS_SHARED ?= -fPIC
 LDFLAGS ?= 
