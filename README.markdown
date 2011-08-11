@@ -11,6 +11,10 @@ your standard web mapping server (such as mapnik) into producing.  Bringing
 a full GIS solution into play, with the performance, mind-share and maintenance
 overhead that entails may be overkill in some situations.
 
+This codebase still has some very serious problems and should not be used
+until a later date.  It is basically at the proof-of-life stage of things
+being able to produce a working output if carefully led along.
+
 Installation
 ------------
 This project is being developed against a mapnik2 trunk branch which may or
@@ -107,10 +111,12 @@ data is provided by King County Washington http://www5.kingcounty.gov/sdc/Metada
 This map image was produced by adding a heatmap layer which renders off of the [King County
 park label point datasource](http://www5.kingcounty.gov/sdc/Metadata.aspx?Layer=park_label).
 
+![Park Label Heat Map](https://github.com/stellaeof/mapnik-rasterizers/raw/master/samples/seattle_park_labels.png)
 
 #### Noxious Weed Density
 
 This map image was produced by adding a heatmap layer which renders off of the [King County
 noxious weed survey sitings datasource](http://www5.kingcounty.gov/sdc/Metadata.aspx?Layer=noxious_weed).
 
+![Noxious weed survey sitings](https://github.com/stellaeof/mapnik-rasterizers/raw/master/samples/seattle_noxious_weed.png)
 
