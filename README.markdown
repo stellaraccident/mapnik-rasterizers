@@ -79,3 +79,38 @@ To use the heatmap plugin, you will want to reference it in a datasource as type
 "heatmap".  The plugin needs access to an underlying vector datasource it is trying to
 render.  All parameters prefixed with a "src_" string are used to construct this vector
 datasource.
+
+Here is an example:
+
+	<Style name="midheat">
+		<Rule>
+			<RasterSymbolizer/>
+		</Rule>
+	</Style>
+	
+	<Layer name="midheat" srs="+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs +over">
+		<StyleName>midheat</StyleName>
+		<Datasource>
+			<Parameter name="type">heatmap</Parameter>
+			<Parameter name="src_type">shape</Parameter>
+			<Parameter name="src_file">/home/stella/gis/noxious_weed_wm.shp</Parameter>
+		</Datasource>
+	</Layer>
+
+### Sample Maps
+
+Portions of the following maps are Copyright OpenStreetMap and contributors, CC-BY-SA.  Statistical
+data is provided by King County Washington http://www5.kingcounty.gov/sdc/Metadata.aspx?Layer=park_label
+
+#### Park Label Density
+
+This map image was produced by adding a heatmap layer which renders off of the [King County
+park label point datasource](http://www5.kingcounty.gov/sdc/Metadata.aspx?Layer=park_label).
+
+
+#### Noxious Weed Density
+
+This map image was produced by adding a heatmap layer which renders off of the [King County
+noxious weed survey sitings datasource](http://www5.kingcounty.gov/sdc/Metadata.aspx?Layer=noxious_weed).
+
+
